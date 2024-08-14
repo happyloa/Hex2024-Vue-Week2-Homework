@@ -40,6 +40,11 @@ const handleOrderCreated = (newOrder) => {
 const handleItemRemoved = (removedId) => {
   cart.value = cart.value.filter((item) => item.id !== removedId);
 };
+
+// 方法: 重置購物車狀態，允許重新添加品項
+const resetCart = () => {
+  cart.value = [];
+};
 </script>
 
 <template>
@@ -52,7 +57,8 @@ const handleItemRemoved = (removedId) => {
         v-model:description="description"
         @update:cart="(newCart) => (cart.value = newCart)"
         @orderCreated="handleOrderCreated"
-        @itemRemoved="handleItemRemoved" />
+        @itemRemoved="handleItemRemoved"
+        @resetCart="resetCart" />
     </div>
     <hr />
     <itemOrder :order="order" />

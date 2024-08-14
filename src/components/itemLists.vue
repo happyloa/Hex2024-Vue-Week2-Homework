@@ -4,7 +4,7 @@ import { defineProps } from "vue";
 const props = defineProps({
   drinks: Array,
   addToCart: Function,
-  cart: Array, // 新增 cart prop 用於檢查品項是否已在購物車中
+  cart: Array, // 用於檢查品項是否已在購物車中
 });
 
 // 計算屬性: 判斷某品項是否已在購物車中

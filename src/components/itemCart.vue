@@ -13,6 +13,7 @@ const emit = defineEmits([
   "update:description",
   "orderCreated",
   "itemRemoved",
+  "resetCart",
 ]);
 
 // 本地的 description 綁定
@@ -63,6 +64,8 @@ const createOrder = () => {
   localDescription.value = "";
   // 發送訂單已建立事件到父元件
   emit("orderCreated", order);
+  // 發送重置購物車事件，讓父元件知道購物車已被清空並允許重新添加品項
+  emit("resetCart");
 };
 </script>
 
