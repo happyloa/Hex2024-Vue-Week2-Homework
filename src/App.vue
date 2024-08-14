@@ -36,7 +36,7 @@ const handleOrderCreated = (newOrder) => {
 </script>
 
 <template>
-  <div class="container mt-5">
+  <div class="container my-5">
     <div class="row">
       <itemLists :drinks="drinks" :addToCart="addToCart" />
       <itemCart
@@ -48,7 +48,7 @@ const handleOrderCreated = (newOrder) => {
     </div>
     <hr />
     <div class="row justify-content-center">
-      <div class="col-8">
+      <div class="col-12">
         <div
           v-if="!order.id"
           class="alert alert-secondary text-center"
