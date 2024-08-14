@@ -8,7 +8,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <aside class="list-group">
+  <div class="list-group">
     <a
       v-for="drink in drinks"
       :key="drink.id"
@@ -21,5 +21,5 @@ const props = defineProps({
       </div>
       <p class="mb-1">{{ drink.description }}</p>
     </a>
-  </aside>
+  </div>
 </template>

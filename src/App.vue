@@ -58,10 +58,10 @@ const itemSubtotal = (item) => {
 <template>
   <div class="container mt-5">
     <div class="row">
-      <div class="col-md-4">
+      <aside class="col-md-4">
         <itemLists :drinks="drinks" :addToCart="addToCart" />
-      </div>
-      <div class="col-md-8">
+      </aside>
+      <main class="col-md-8">
         <table class="table">
           <thead>
             <tr>
@@ -123,7 +123,7 @@ const itemSubtotal = (item) => {
             </button>
           </div>
         </div>
-      </div>
+      </main>
     </div>
     <hr />
     <div class="row justify-content-center">
