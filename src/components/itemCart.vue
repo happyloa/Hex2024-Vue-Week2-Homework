@@ -133,7 +133,7 @@ const createOrder = () => {
       </tbody>
     </table>
 
-    <!-- 如果購物車為空，顯示提示信息 -->
+    <!-- 如果購物車為空，顯示提示訊息 -->
     <div
       v-if="props.cart.length === 0"
       class="alert alert-primary text-center"
@@ -149,7 +149,7 @@ const createOrder = () => {
           總計: <span>${{ props.sum }}</span>
         </h5>
       </div>
-      <!-- 備註文本框，允許用戶輸入訂單的額外備註信息 -->
+      <!-- 備註文本框，允許用戶輸入訂單的額外備註訊息 -->
       <textarea
         class="form-control mb-3"
         rows="3"
