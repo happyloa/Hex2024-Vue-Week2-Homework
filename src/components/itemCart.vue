@@ -162,9 +162,9 @@ const addNote = (note) => {
         rows="3"
         placeholder="備註"
         v-model="localDescription"></textarea>
-      <div class="d-flex justify-content-between">
+      <div class="d-flex justify-content-between gap-2">
         <!-- 甜度冰塊按鈕，讓常見的搭配種類可以直接被加進備註中 -->
-        <div class="d-flex gap-2">
+        <div class="d-flex flex-wrap gap-2">
           <!-- 每個按鈕的點擊事件都會將對應的文字追加到備註欄中 -->
           <button
             type="button"
@@ -192,7 +192,10 @@ const addNote = (note) => {
           </button>
         </div>
         <!-- 送出訂單按鈕，點擊時觸發 createOrder 方法建立訂單 -->
-        <button class="btn btn-primary" @click.prevent="createOrder">
+        <button
+          type="button"
+          class="btn btn-primary"
+          @click.prevent="createOrder">
           送出
         </button>
       </div>
