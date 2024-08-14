@@ -37,7 +37,7 @@ const props = defineProps({
               </tbody>
             </table>
             <div class="text-end">
-              備註: <span>{{ order.description }}</span>
+              備註: <span>{{ order.description || "無" }}</span>
             </div>
             <div class="text-end">
               <h5>
