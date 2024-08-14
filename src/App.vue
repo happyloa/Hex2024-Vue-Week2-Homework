@@ -35,6 +35,11 @@ const addToCart = (drink) => {
 const handleOrderCreated = (newOrder) => {
   order.value = newOrder;
 };
+
+// 方法: 處理項目被移除的事件
+const handleItemRemoved = (removedId) => {
+  cart.value = cart.value.filter((item) => item.id !== removedId);
+};
 </script>
 
 <template>
@@ -46,7 +51,8 @@ const handleOrderCreated = (newOrder) => {
         :sum="sum"
         v-model:description="description"
         @update:cart="(newCart) => (cart.value = newCart)"
-        @orderCreated="handleOrderCreated" />
+        @orderCreated="handleOrderCreated"
+        @itemRemoved="handleItemRemoved" />
     </div>
     <hr />
     <itemOrder :order="order" />

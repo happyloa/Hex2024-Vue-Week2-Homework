@@ -8,7 +8,12 @@ const props = defineProps({
   description: String,
 });
 
-const emit = defineEmits(["update:cart", "update:description", "orderCreated"]);
+const emit = defineEmits([
+  "update:cart",
+  "update:description",
+  "orderCreated",
+  "itemRemoved",
+]);
 
 // 本地的 description 綁定
 const localDescription = ref(props.description);
@@ -42,6 +47,7 @@ const updateCart = (item) => {
 // 方法: 從購物車中移除項目
 const removeFromCart = (id) => {
   localCart.value = localCart.value.filter((cartItem) => cartItem.id !== id);
+  emit("itemRemoved", id); // 發送 itemRemoved 事件到父元件
 };
 
 // 方法: 建立訂單
