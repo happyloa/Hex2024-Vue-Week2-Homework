@@ -22,8 +22,9 @@
 │ ├── components            元件存放區
 │ │ └── itemLists.vue       品項列表元件
 │ │ ├── itemCart.vue        品項購物車元件
-│ │ ├── itemOrder.vue       訂單元件
+│ │ └── itemOrder.vue       訂單元件
 │ ├── App.vue               主要元件
+│ ├── style.css             全域樣式表
 │ └── main.js               入口文件
 ├── index.html              主 HTML 文件
 ├── package.json            專案配置文件
