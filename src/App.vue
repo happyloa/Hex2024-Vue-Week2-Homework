@@ -8,7 +8,7 @@ import itemCart from "./components/itemCart.vue";
 // 引入訂單元件
 import itemOrder from "./components/itemOrder.vue";
 
-// 引入資料檔案
+// 引入品項資料
 import { data } from "./data/items.js";
 
 const drinks = ref(data);
