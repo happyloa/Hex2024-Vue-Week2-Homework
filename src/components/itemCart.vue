@@ -80,6 +80,13 @@ const createOrder = () => {
   emit("orderCreated", order); // 發送訂單已建立事件到父元件
   emit("resetCart"); // 發送重置購物車事件，讓父元件知道購物車已被清空並允許重新添加品項
 };
+
+// 方法: 添加備註文字
+// 接收一個文字片段，將其追加到 localDescription 中
+const addNote = (note) => {
+  // 如果備註欄已有內容，新增的內容前加一個空格
+  localDescription.value += localDescription.value ? ` ${note}` : note;
+};
 </script>
 
 <template>
@@ -155,8 +162,36 @@ const createOrder = () => {
         rows="3"
         placeholder="備註"
         v-model="localDescription"></textarea>
-      <!-- 送出訂單按鈕，點擊時觸發 createOrder 方法建立訂單 -->
-      <div class="text-end">
+      <div class="d-flex justify-content-between">
+        <!-- 甜度冰塊按鈕，讓常見的搭配種類可以直接被加進備註中 -->
+        <div class="d-flex gap-2">
+          <!-- 每個按鈕的點擊事件都會將對應的文字追加到備註欄中 -->
+          <button
+            type="button"
+            class="btn btn-info"
+            @click="addNote('全糖正常冰')">
+            全糖正常冰
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click="addNote('少糖半冰')">
+            少糖半冰
+          </button>
+          <button
+            type="button"
+            class="btn btn-success"
+            @click="addNote('微糖半冰')">
+            微糖半冰
+          </button>
+          <button
+            type="button"
+            class="btn btn-warning"
+            @click="addNote('微糖溫')">
+            微糖溫
+          </button>
+        </div>
+        <!-- 送出訂單按鈕，點擊時觸發 createOrder 方法建立訂單 -->
         <button class="btn btn-primary" @click.prevent="createOrder">
           送出
         </button>
