@@ -40,7 +40,7 @@ const handleOrderCreated = (newOrder) => {
 <template>
   <div class="container my-5">
     <div class="row">
-      <itemLists :drinks="drinks" :addToCart="addToCart" />
+      <itemLists :drinks="drinks" :addToCart="addToCart" :cart="cart" />
       <itemCart
         :cart="cart"
         :sum="sum"
