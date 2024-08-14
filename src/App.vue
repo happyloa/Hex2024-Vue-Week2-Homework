@@ -3,6 +3,8 @@ import { ref, computed } from "vue";
 
 // 引入品項列表元件
 import itemLists from "./components/itemLists.vue";
+// 引入品項購物車元件
+import itemCart from "./components/itemCart.vue";
 
 // 引入資料檔案
 import { data } from "./data/items.js";
@@ -18,6 +20,7 @@ const sum = computed(() => {
   }, 0);
 });
 
+// 方法: 新增項目至購物車
 const addToCart = (drink) => {
   cart.value.push({
     ...drink,
@@ -26,32 +29,9 @@ const addToCart = (drink) => {
   });
 };
 
-const updateCart = (item) => {
-  cart.value = cart.value.map((cartItem) => {
-    if (cartItem.id === item.id) {
-      cartItem.quantity = parseInt(item.quantity);
-    }
-    return cartItem;
-  });
-};
-
-const removeFromCart = (id) => {
-  cart.value = cart.value.filter((cartItem) => cartItem.id !== id);
-};
-
-const createOrder = () => {
-  order.value = {
-    id: new Date().getTime(),
-    cart: cart.value,
-    description: description.value,
-    sum: sum.value,
-  };
-  cart.value = [];
-  description.value = "";
-};
-
-const itemSubtotal = (item) => {
-  return item.price * item.quantity;
+// 方法: 接收訂單建立的事件
+const handleOrderCreated = (newOrder) => {
+  order.value = newOrder;
 };
 </script>
 
@@ -59,69 +39,12 @@ const itemSubtotal = (item) => {
   <div class="container mt-5">
     <div class="row">
       <itemLists :drinks="drinks" :addToCart="addToCart" />
-      <main class="col-md-8">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col" width="50">操作</th>
-              <th scope="col">品項</th>
-              <th scope="col">描述</th>
-              <th scope="col" width="90">數量</th>
-              <th scope="col">單價</th>
-              <th scope="col">小計</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item in cart" :key="item.id">
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-sm"
-                  @click="removeFromCart(item.id)">
-                  x
-                </button>
-              </td>
-              <td>{{ item.name }}</td>
-              <td>
-                <small>{{ item.description }}</small>
-              </td>
-              <td>
-                <select
-                  class="form-select"
-                  v-model="item.quantity"
-                  @change="updateCart(item)">
-                  <option v-for="n in 10" :key="n" :value="n">{{ n }}</option>
-                </select>
-              </td>
-              <td>{{ item.price }}</td>
-              <td>{{ itemSubtotal(item) }}</td>
-            </tr>
-          </tbody>
-        </table>
-        <div
-          v-if="cart.length === 0"
-          class="alert alert-primary text-center"
-          role="alert">
-          請選擇商品
-        </div>
-        <div v-else>
-          <div class="text-end mb-3">
-            <h5>
-              總計: <span>${{ sum }}</span>
-            </h5>
-          </div>
-          <textarea
-            class="form-control mb-3"
-            rows="3"
-            placeholder="備註"
-            v-model="description"></textarea>
-          <div class="text-end">
-            <button class="btn btn-primary" @click.prevent="createOrder">
-              送出
-            </button>
-          </div>
-        </div>
-      </main>
+      <itemCart
+        :cart="cart"
+        :sum="sum"
+        v-model:description="description"
+        @update:cart="(newCart) => (cart.value = newCart)"
+        @orderCreated="handleOrderCreated" />
     </div>
     <hr />
     <div class="row justify-content-center">
@@ -148,7 +71,7 @@ const itemSubtotal = (item) => {
                   <tr v-for="item in order.cart" :key="item.id">
                     <td>{{ item.name }}</td>
                     <td>{{ item.quantity }}</td>
-                    <td>{{ itemSubtotal(item) }}</td>
+                    <td>{{ item.price * item.quantity }}</td>
                   </tr>
                 </tbody>
               </table>
