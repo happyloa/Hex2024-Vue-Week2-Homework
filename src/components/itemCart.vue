@@ -18,16 +18,10 @@ const emit = defineEmits([
 
 // 本地的 description 綁定
 const localDescription = ref(props.description);
-const localCart = ref(props.cart);
 
 // 監聽 description 的變化並發送事件到父元件
 watch(localDescription, (newValue) => {
   emit("update:description", newValue);
-});
-
-// 監聽 cart 的變化並發送事件到父元件
-watch(localCart, (newCart) => {
-  emit("update:cart", newCart);
 });
 
 // 方法: 計算單項小計
@@ -37,35 +31,36 @@ const itemSubtotal = (item) => {
 
 // 方法: 更新購物車項目的數量
 const updateCart = (item) => {
-  localCart.value = localCart.value.map((cartItem) => {
-    if (cartItem.id === item.id) {
-      cartItem.quantity = parseInt(item.quantity);
-    }
-    return cartItem;
-  });
+  const index = props.cart.findIndex((cartItem) => cartItem.id === item.id);
+  if (index !== -1) {
+    props.cart[index].quantity = parseInt(item.quantity);
+    emit("update:cart", props.cart); // 发出更新购物车的事件
+  }
 };
 
 // 方法: 從購物車中移除項目
 const removeFromCart = (id) => {
-  localCart.value = localCart.value.filter((cartItem) => cartItem.id !== id);
-  emit("itemRemoved", id); // 發送 itemRemoved 事件到父元件
+  const index = props.cart.findIndex((cartItem) => cartItem.id === id);
+  if (index !== -1) {
+    props.cart.splice(index, 1);
+    emit("update:cart", props.cart); // 发出更新购物车的事件
+    emit("itemRemoved", id); // 發送 itemRemoved 事件到父元件
+  }
 };
 
 // 方法: 建立訂單
 const createOrder = () => {
   const order = {
     id: new Date().getTime(),
-    cart: localCart.value,
+    cart: [...props.cart], // 使用展開運算符創建新引用
     description: localDescription.value,
     sum: props.sum,
   };
   // 重置購物車與備註
-  localCart.value = [];
+  props.cart.splice(0); // 保持引用，清空数组内容
   localDescription.value = "";
-  // 發送訂單已建立事件到父元件
-  emit("orderCreated", order);
-  // 發送重置購物車事件，讓父元件知道購物車已被清空並允許重新添加品項
-  emit("resetCart");
+  emit("orderCreated", order); // 發送訂單已建立事件到父元件
+  emit("resetCart"); // 發送重置購物車事件，讓父元件知道購物車已被清空並允許重新添加品項
 };
 </script>
 
@@ -83,7 +78,7 @@ const createOrder = () => {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in localCart" :key="item.id">
+        <tr v-for="item in props.cart" :key="item.id">
           <td>
             <button
               type="button"
@@ -110,7 +105,7 @@ const createOrder = () => {
       </tbody>
     </table>
     <div
-      v-if="localCart.length === 0"
+      v-if="props.cart.length === 0"
       class="alert alert-primary text-center"
       role="alert">
       請選擇商品
